@@ -1,0 +1,91 @@
+ekf_filter_node:
+  ros__parameters:
+<<<<<<< HEAD
+    frequency: 30.0
+    sensor_timeout: 0.1
+    two_d_mode: false
+
+    # IMU - use orientation and angular velocity
+    imu0: /imu/data
+    imu0_config: [false, false, false,    # position (x, y, z) - not used
+                  true,  true,  true,     # orientation (roll, pitch, yaw)
+                  false, false, false,    # linear velocity (x, y, z) - not used
+                  true,  true,  true,     # angular velocity (x, y, z)
+                  false, false, false,    # linear acceleration (x, y, z) - not used
+                  false, false, false]    # angular acceleration (x, y, z) - not used
+    imu0_differential: false
+    imu0_relative: false
+    imu0_remove_gravitational_acceleration: true
+
+    # Visual odometry from rtabmap (position and velocity)
+    odometry0: /odom
+    odometry0_config: [true,  true,  true,    # position (x, y, z)
+                      false, false, false,    # orientation (roll, pitch, yaw) - not used
+                      true,  true,  true,     # linear velocity (x, y, z)
+                      false, false, false,    # angular velocity (x, y, z) - not used
+                      false, false, false,    # linear acceleration (x, y, z) - not used
+                      false, false, false]    # angular acceleration (x, y, z) - not used
+
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: odom
+
+    publish_tf: true
+    publish_acceleration: false
+=======
+    frequency: 50.0
+    sensor_timeout: 0.1
+
+    two_d_mode: true 
+
+    # Frame Configuration
+    odom_frame: odom
+    base_link_frame: base_link  # <-- CRITICAL: Changed from base_frame to base_link
+    world_frame: odom           # EKF outputs odom->base_link transform relative to the odom frame
+    publish_tf: false           # <-- IMPORTANT: Set to false to avoid TF conflict with odom_2d_filter_node
+
+    # IMU Configuration (primary source)
+    imu0: /camera/camera/imu           # Verify this topic is actually publishing IMU data
+    imu0_config: [false, false, false,  # x, y, z linear acceleration (disable for now for 2D mode unless well compensated)
+                  false, false, true,   # roll, pitch, YAW orientation (ONLY YAW for 2D mode)
+                  false, false, true,   # roll, pitch, YAW angular velocity (ONLY YAW_RATE for 2D mode)
+                  false, false, false]  # x, y, z linear velocity (if available)
+    imu0_differential: false
+    imu0_queue_size: 10
+    imu0_remove_gravitational_acceleration: true # Keep true if IMU provides raw accel with gravity
+
+    # REMOVE odom0 SECTION ENTIRELY if you are using odom_2d_filter_node to convert /odom_cam to /odom.
+    # The EKF should then subscribe to /odom (from odom_2d_filter_node) if you want to fuse it.
+    # Let's assume for simplicity we remove it, and the EKF will only use IMU to filter for planar motion.
+    # If you later decide to fuse /odom from odom_2d_filter_node, you'd add:
+    # odom0: /odom
+    # odom0_config: [true, true, false, false, false, true, true, true, false, false, false, true, false, false, false]
+
+    # Initial State (all zeros) - good defaults
+    initial_state: [0.0, 0.0, 0.0, # X, Y, Z position
+                    0.0, 0.0, 0.0, # Roll, Pitch, Yaw orientation
+                    0.0, 0.0, 0.0, # X, Y, Z linear velocity
+                    0.0, 0.0, 0.0, # Roll, Pitch, Yaw angular velocity
+                    0.0, 0.0, 0.0] # X, Y, Z linear acceleration
+
+    # Process noise covariance (MUST be 15x15 if estimating all states, 225 elements)
+    # Using a generic diagonal matrix for now. Tune these after system is stable.
+    process_noise_covariance: [
+      0.05, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.05, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.06, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.03, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.03, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.06, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.025, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.025, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.04, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.02, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01
+    ]
+>>>>>>> d779087 (Add all SLAM-related source packages including:)

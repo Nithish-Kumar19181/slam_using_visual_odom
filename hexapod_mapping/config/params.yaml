@@ -1,0 +1,51 @@
+ros__parameters:
+
+  mode: "mapping"
+  use_sim_time: false
+
+  # Map parameters
+  map_update_interval: 2.0        # seconds
+  resolution: 0.075            # meters per cell
+  map_publish_interval: 2.0       # seconds
+
+  # TF frames and topics
+  map_frame: "map"
+  odom_frame: "odom"
+  base_frame: "base_link"
+  scan_topic: "/scan"
+
+  # Depth-to-LaserScan constraints (RealSense D455 reliable range ~0.3–5.0 m)
+  max_laser_range: 6.0
+  minimum_laser_range: 0.6
+
+  # Scan matching
+  use_scan_matching: true
+  transform_timeout: 0.5
+  minimum_time_interval: 0.0
+
+  # Publishing options
+  publish_pose: true
+  publish_map: true
+  publish_tracked_pose: true
+  publish_tracked_poses: true
+  publish_tracked_poses_interval: 2.0
+  publish_tracked_poses_frame: "odom"
+
+  # Solver settings
+  solver_plugin: "solver_plugins::CeresSolver"
+  ceres_solver:
+    preconditioner_type: "SCHUR_JACOBI"
+    linear_solver_type: "SPARSE_SCHUR"
+    max_num_iterations: 50
+    use_robust_kernel: true
+
+  # Loop closure parameters
+  loop_closure_healing_threshold: 0.1
+  loop_closure_healing_angle_threshold: 0.1
+  loop_closure_max_distance: 5.0  # RealSense scan is ~5m, don't exceed it
+
+  # Optional optimization
+  throttle_scans: 1               # Use every scan
+  debug_map_builder: false
+  debug_loop_closure: false
+  debug_map_publisher: true
