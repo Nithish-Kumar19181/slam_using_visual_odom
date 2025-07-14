@@ -31,21 +31,31 @@ The names of the files must be changed in the future
 
     ```
 
-4. **Start the depth-to-laserscan converter:**
+    **or**
+
+            ```bash
+        ros2 run rtabmap_odom rgbd_odometry --ros-args --remap rgb/image:=/camera/camera/color/image_raw --remap depth/image:=/camera/camera/depth/image_rect_raw --remap rgb/camera_info:=/camera/camera/color/camera_info --remap odom:=/odom_cam -p frame_id:=base_link -p publish_tf:=false -p approx_sync:=true -p approx_sync_max_interval:=0.02 -p Reg/MinInliers:=10 -p queue_size:=30
+
+
+   
+
+   
+
+5. **Start the depth-to-laserscan converter:**
     ```bash
     ros2 run depth_to_laserscan depth_to_laserscan_node
     ```
 
-5. Launch the 2d_odom from the camera
+6. Launch the 2d_odom from the camera
     ```bash
     ros2 run realsense_imu_fusion odom_2d_filter_node 
     ```
-6. Launch Slam_Tool_Box usign this command
+7. Launch Slam_Tool_Box usign this command
     ```bash
     ros2 launch slam_toolbox online_async_launch.py slam_params_file:=/home/nithish/slam_hexapod_5th_jan_1/src/hexapod_mapping/config/mapper_params_online_async.yaml use_sim_time:=false
     ```
 
-7. Launch debugging commands 
+8. Launch debugging commands 
     ```bash
     ros2 run rqt_tf_tree rqt_tf_tree --force-discover
 
