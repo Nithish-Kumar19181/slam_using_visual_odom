@@ -33,8 +33,8 @@ The names of the files must be changed in the future
 
     **or**
 
-            ```bash
-        ros2 run rtabmap_odom rgbd_odometry --ros-args --remap rgb/image:=/camera/camera/color/image_raw --remap depth/image:=/camera/camera/depth/image_rect_raw --remap rgb/camera_info:=/camera/camera/color/camera_info --remap odom:=/odom_cam -p frame_id:=base_link -p publish_tf:=false -p approx_sync:=true -p approx_sync_max_interval:=0.02 -p Reg/MinInliers:=10 -p queue_size:=30
+   ```
+   ros2 run rtabmap_odom rgbd_odometry --ros-args --remap rgb/image:=/camera/camera/color/image_raw --remap depth/image:=/camera/camera/depth/image_rect_raw --remap rgb/camera_info:=/camera/camera/color/camera_info --remap odom:=/odom_cam -p frame_id:=base_link -p publish_tf:=false -p approx_sync:=true -p approx_sync_max_interval:=0.02 -p Reg/MinInliers:=10 -p queue_size:=30
 
 
    
