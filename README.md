@@ -38,7 +38,21 @@ The names of the files must be changed in the future
 
     **Localisation**
 
-        ros2 launch rtabmap_launch rtabmap.launch.py   database_path:=/home/nithish/slam_hexapod_5th_jan_1/map_3d.db   localization:=true   use_sim_time:=false   frame_id:=base_link   rgb_topic:=/camera/camera/color/image_raw   depth_topic:=/camera/camera/depth/image_rect_raw   camera_info_topic:=/camera/camera/color/camera_info   scan_topic:=/scan   subscribe_depth:=true   subscribe_scan:=true   subscribe_rgbd:=false   approx_sync:=true   rtabmap_args:="--Reg/Force3DoF true" 
+        ros2 launch rtabmap_launch rtabmap.launch.py \
+          database_path:=/home/nithish/slam_hexapod_5th_jan_1/map_3d.db \
+          localization:=true \
+          use_sim_time:=false \
+          frame_id:=base_link \
+          rgb_topic:=/camera/camera/color/image_raw \
+          depth_topic:=/camera/camera/depth/image_rect_raw \
+          camera_info_topic:=/camera/camera/color/camera_info \
+          scan_topic:=/scan \
+          subscribe_depth:=true \
+          subscribe_scan:=true \
+          subscribe_rgbd:=false \
+          approx_sync:=true \
+          rtabmap_args:="--Reg/Force3DoF true"
+ 
 
 5. **Start the depth-to-laserscan converter:**
     ```bash
