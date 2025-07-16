@@ -200,6 +200,11 @@ Created by **Nithish Kumar R**, using:
   - Intel RealSense D435i
   - Custom Arduino-based hexapod
 
+## Outputs
+
+<img width="1506" height="932" alt="Screenshot from 2025-07-16 12-00-24" src="https://github.com/user-attachments/assets/711c178c-8c84-48f8-8eb5-158e7d2ce96a" />
+
+
 <!-- end list -->
 
 ```
